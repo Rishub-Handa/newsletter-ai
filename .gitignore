@@ -1,5 +1,11 @@
 emails
-.ipynb_checkpoints
-.env
 outputs
 summary
+
+.ipynb_checkpoints
+__pycache__
+.env
+
+credentials.json
+token.json
+
