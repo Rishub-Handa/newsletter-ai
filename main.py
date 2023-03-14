@@ -18,9 +18,11 @@ if __name__ == "__main__":
     print("Running newsletter summary generator")
 
     load_dotenv()
+
     openapi_key = os.environ['OPENAI_KEY']
     sender_email = os.environ['SENDER_EMAIL']
     sender_password = os.environ['SENDER_PASSWORD']
+    environment = os.environ['ENVIRONMENT']
 
     # Get recent newsletters from newsletters folder
     emails = get_recent_messages()
@@ -45,6 +47,7 @@ if __name__ == "__main__":
 
     # TODO: not sure if this would work
     execution_time = int(time.time())
+    os.makedirs(f'./outputs/v2_headings/{execution_time}', exist_ok=True)
     for e in emails:
         print(f"Generating headlines for {e.sender}...")
         headlines = llm_chain.run(e.headings_text)
@@ -60,12 +63,15 @@ if __name__ == "__main__":
     for e in emails:
         if "No valid" in e.headlines:
             continue
-        response_body += os.path.splitext(e.sender)[0] + "\n" +  \
+        response_body += os.path.splitext(e.sender)[0] + " - " +  \
             e.email.subject + "\n" + \
             e.headlines.strip() + "\n\n"
 
-    with open(f'summary/{execution_time}/response.txt', 'w') as f:
+    os.makedirs(f'./summary/{execution_time}', exist_ok=True)
+    with open(f'./summary/{execution_time}/response.txt', 'w') as f:
         f.write(response_body)
 
     print("Response body: ")
     pprint(response_body)
+
+    gmail_send_message("Newsletter Digest :)", "handarishub@gmail.com", response_body)
