@@ -45,7 +45,6 @@ if __name__ == "__main__":
         llm=davinci
     )
 
-    # TODO: not sure if this would work
     execution_time = int(time.time())
     os.makedirs(f'./outputs/v2_headings/{execution_time}', exist_ok=True)
     for e in emails:
