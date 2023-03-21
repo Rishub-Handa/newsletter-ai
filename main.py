@@ -22,6 +22,7 @@ if __name__ == "__main__":
     openapi_key = os.environ['OPENAI_KEY']
     sender_email = os.environ['SENDER_EMAIL']
     sender_password = os.environ['SENDER_PASSWORD']
+    receiver_email = os.environ['RECEIVER_EMAIL']
     environment = os.environ['ENVIRONMENT']
 
     # Get recent newsletters from newsletters folder
@@ -73,4 +74,4 @@ if __name__ == "__main__":
     print("Response body: ")
     pprint(response_body)
 
-    gmail_send_message("Newsletter Digest :)", "handarishub@gmail.com", response_body)
+    gmail_send_message("Newsletter Digest :)", receiver_email, response_body)
